@@ -31,7 +31,6 @@ export default {
     }
   },
   created() {
-    console.log("called created!!");
     this.$store.dispatch("getProducts");
   }
 };
