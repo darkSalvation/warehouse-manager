@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <nav>
-      <v-toolbar dark>
+      <v-toolbar dark class="mb-2">
         <v-toolbar-title> <router-link :to="{name: 'home'}">{{app_title}}</router-link>  </v-toolbar-title>
           <v-spacer></v-spacer>
 
@@ -39,7 +39,10 @@ export default {
   },
   computed: mapState({
     app_title: state => state.app_title
-  })
+  }),
+  mounted() {
+    this.$store.dispatch("getProducts");
+  }
 };
 </script>
 

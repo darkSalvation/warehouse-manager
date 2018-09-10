@@ -1,15 +1,16 @@
 <template>
     <v-layout wrap>
         <v-flex class="xs12 sm6 offset-sm3">
-            <v-btn to="products/new/" flat color="info">Add Product</v-btn>
+            <v-btn right to="products/new/" flat color="info">Add Product</v-btn>
         </v-flex>
         <v-flex class="xs12 sm6 offset-sm3" v-for="item in items" :key="item.id">
             <v-card class="mt-1">
+                <v-img :src="item.imageURL" height="200" contain></v-img>
                 <v-card-title primary-title>
                     <div>
                         <h3 class="headline mb-0">{{item.name}}</h3>
                         <div>{{item.description}}</div>
-                        <div>{{item.quantity}} available</div>
+                        <div><b>{{item.quantity}}</b> available</div>
                     </div>
                 </v-card-title>
                 <v-card-actions>
@@ -29,7 +30,8 @@ export default {
       return this.$store.getters.products;
     }
   },
-  mounted() {
+  created() {
+    console.log("called created!!");
     this.$store.dispatch("getProducts");
   }
 };
