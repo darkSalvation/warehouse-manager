@@ -47,6 +47,18 @@ export default new Vuex.Store({
       }
 
       state.products.push(product);
+    },
+
+    updateProduct(state, payload) {
+      for (let i = 0; i < state.products.length; i++) {
+        const product = state.products[i];
+
+        if (product.id.toString() === payload.id.toString()) {
+          state.products[i] = payload;
+          return;
+        }
+
+      }
     }
 
   },
@@ -61,6 +73,10 @@ export default new Vuex.Store({
 
     addProduct(context, paylaod) {
       context.commit('addProduct', paylaod)
+    },
+
+    updateProduct(context, paylaod) {
+      context.commit('updateProduct', paylaod)
     }
   },
   getters: {

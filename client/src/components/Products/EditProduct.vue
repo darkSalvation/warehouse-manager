@@ -57,13 +57,16 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log({
+      const payload = {
         id: this.id,
         name: this.name,
         quantity: this.quantity,
         description: this.description,
         imageURL: this.imageURL
-      });
+      };
+
+      this.$store.commit("updateProduct", payload);
+      this.$router.push("/products");
     }
   },
   created() {
