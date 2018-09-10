@@ -42,7 +42,8 @@ export default new Vuex.Store({
         id: Math.floor((Math.random() * 10) + 10), //payload.id,
         name: payload.name,
         description: payload.description,
-        quantity: payload.quantity
+        quantity: payload.quantity,
+        imageURL: payload.imageURL
       }
 
       state.products.push(product);

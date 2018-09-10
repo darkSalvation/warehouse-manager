@@ -15,6 +15,11 @@
                 required
                 ></v-textarea>
                 <v-text-field
+                v-model="imageURL"
+                label="Image"
+                ></v-text-field>
+                <v-img :src="imageURL" height="100" contain></v-img>
+                <v-text-field
                 v-model="quantity"
                 label="Quantity"
                 mask="###"
@@ -38,7 +43,8 @@ export default {
       id: "",
       name: "",
       description: "",
-      quantity: ""
+      quantity: "",
+      imageURL: ""
     };
   },
 
@@ -55,7 +61,8 @@ export default {
         id: this.id,
         name: this.name,
         quantity: this.quantity,
-        description: this.description
+        description: this.description,
+        imageURL: this.imageURL
       };
       this.$store.commit("addProduct", payload);
       this.$router.push("/products");

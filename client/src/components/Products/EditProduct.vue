@@ -15,6 +15,11 @@
                 required
                 ></v-textarea>
                 <v-text-field
+                v-model="imageURL"
+                label="Image"
+                ></v-text-field>
+                <v-img :src="imageURL" height="100" contain></v-img>
+                <v-text-field
                 v-model="quantity"
                 label="Quantity"
                 mask="###"
@@ -56,7 +61,8 @@ export default {
         id: this.id,
         name: this.name,
         quantity: this.quantity,
-        description: this.description
+        description: this.description,
+        imageURL: this.imageURL
       });
     }
   },
@@ -70,6 +76,7 @@ export default {
     this.description = item.description;
     this.quantity = item.quantity;
     this.id = item.id;
+    this.imageURL = item.imageURL;
   }
 };
 </script>
