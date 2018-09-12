@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <nav>
-      <v-toolbar dark class="mb-2">
+      <v-toolbar dark class="mb-5">
         <v-toolbar-title> <router-link :to="{name: 'home'}">{{app_title}}</router-link>  </v-toolbar-title>
           <v-spacer></v-spacer>
 

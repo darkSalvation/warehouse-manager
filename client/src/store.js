@@ -1,82 +1,92 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
+import db from './db'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    app_title: 'Warehouse - Manager',
+    app_title: "Warehouse - Manager",
     products: [],
-    currentProduct: null
+    currentProduct: ""
   },
   mutations: {
-    getProducts(state) {
-      if (state.products.length === 0) {
-        state.products = [{
-            id: 0,
-            name: 'Drucker',
-            quantity: 10,
-            description: 'Ein toller Drucker',
-            imageURL: 'https://upload.wikimedia.org/wikipedia/de/f/ff/Druckerchannel-Bild_Hp_officejet_pro_l7780_aio_drucker.jpg'
-          },
-          {
-            id: 1,
-            name: 'Monitor',
-            quantity: 10,
-            description: 'Ein toller Monitor',
-            imageURL: 'https://www.publicdomainpictures.net/pictures/20000/velka/blank-monitor-112996054549vN.jpg'
-          },
-        ];
-      }
-
+    setCurrentProduct(state, payload) {
+      state.currentProduct = payload;
     },
+    getProducts(state) {
+      db.collection("products")
+        .get()
+        .then(snapshot => {
+          state.products = [];
 
-    getProductById(state, id) {
-      state.currentProduct = state.products.find(x => {
-        return x.id.toString() === id.toString()
-      })
+          snapshot.forEach(doc => {
+            const product = {
+              id: doc.id,
+              name: doc.data().name,
+              quantity: doc.data().quantity,
+              description: doc.data().description,
+              imageURL: doc.data().imageURL
+            };
+
+            state.products.push(product);
+          });
+        })
+        .catch(err => {
+          console.log("Error getting products", err);
+        });
     },
 
     addProduct(state, payload) {
       const product = {
-        id: Math.floor((Math.random() * 10) + 10), //payload.id,
+        id: Math.floor(Math.random() * 10 + 10), //payload.id,
         name: payload.name,
         description: payload.description,
         quantity: payload.quantity,
         imageURL: payload.imageURL
-      }
+      };
 
       state.products.push(product);
     },
 
     updateProduct(state, payload) {
-      for (let i = 0; i < state.products.length; i++) {
-        const product = state.products[i];
-
+      state.products.forEach((product, i) => {
         if (product.id.toString() === payload.id.toString()) {
           state.products[i] = payload;
           return;
         }
-
-      }
+      });
     }
-
   },
   actions: {
     getProducts(context) {
-      context.commit('getProducts')
+      context.commit("getProducts");
     },
 
     getProductById(context, id) {
-      context.commit('getProductById', id)
+      context.commit("setCurrentProduct", "");
+      let ref = db.collection("products");
+      let doc = ref
+        .doc(id)
+        .get()
+        .then(doc => {
+          const product = {
+            id: doc.id,
+            name: doc.data().name,
+            quantity: doc.data().quantity,
+            description: doc.data().description,
+            imageURL: doc.data().imageURL
+          };
+          context.commit("setCurrentProduct", product);
+        });
     },
 
     addProduct(context, paylaod) {
-      context.commit('addProduct', paylaod)
+      context.commit("addProduct", paylaod);
     },
 
     updateProduct(context, paylaod) {
-      context.commit('updateProduct', paylaod)
+      context.commit("updateProduct", paylaod);
     }
   },
   getters: {

@@ -1,5 +1,5 @@
 <template>
-    <v-layout wrap>
+    <v-layout row wrap>
         <v-flex class="xs12 sm6 offset-sm3">
             <v-btn center to="products/new/" flat class="info">Add Product</v-btn>
         </v-flex>
@@ -24,15 +24,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    items() {
-      return this.$store.getters.products;
-    }
+    ...mapGetters({
+      items: "products"
+    })
   },
-  created() {
-    this.$store.dispatch("getProducts");
-  }
+  created() {}
 };
 </script>
 
