@@ -2,7 +2,7 @@
     <v-layout>
         <v-flex xs12 sm6 offset-sm3 v-if="currentProduct">
             <h1>Update Product</h1>
-            <v-form ref="form" @submit.prevent="onSubmit">
+            <v-form ref="form" @submit.prevent="onSubmit(currentProduct)">
                 <v-text-field
                 v-model="currentProduct.name"
                 label="Name"
@@ -50,18 +50,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      getProductById: "getProductById"
+      getProductById: "getProductById",
+      updateProduct: "updateProduct"
     }),
-    onSubmit() {
-      // const payload = {
-      //   id: this.id,
-      //   name: this.name,
-      //   quantity: this.quantity,
-      //   description: this.description,
-      //   imageURL: this.imageURL
-      // };
-      // this.$store.commit("updateProduct", payload);
-      // this.$router.push("/products");
+    onSubmit(currentProduct) {
+      this.updateProduct(currentProduct);
+      this.$router.push("/products");
     },
     onLoad() {
       const id = this.$route.params.id;
@@ -70,7 +64,6 @@ export default {
   },
   created() {
     this.onLoad();
-    console.log("this.onLoad");
   }
 };
 </script>

@@ -27,12 +27,19 @@
 import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
 export default {
+  methods: {
+    ...mapActions({
+      getProducts: "getProducts"
+    })
+  },
   computed: {
     ...mapGetters({
       items: "products"
     })
   },
-  created() {}
+  mounted() {
+    this.getProducts();
+  }
 };
 </script>
 

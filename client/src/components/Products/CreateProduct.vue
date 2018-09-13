@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -56,6 +57,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      addProduct: "addProduct"
+    }),
+
     onSubmit() {
       const payload = {
         id: this.id,
@@ -64,7 +69,7 @@ export default {
         description: this.description,
         imageURL: this.imageURL
       };
-      this.$store.commit("addProduct", payload);
+      this.addProduct(payload);
       this.$router.push("/products");
     }
   }

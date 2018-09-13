@@ -39,7 +39,7 @@ export default new Vuex.Store({
 
     addProduct(state, payload) {
       const product = {
-        id: Math.floor(Math.random() * 10 + 10), //payload.id,
+        id: payload.id,
         name: payload.name,
         description: payload.description,
         quantity: payload.quantity,
@@ -82,11 +82,24 @@ export default new Vuex.Store({
     },
 
     addProduct(context, paylaod) {
-      context.commit("addProduct", paylaod);
+      db.collection('products').add(paylaod)
+        .then(doc => {
+          const product = {
+            id: doc.id,
+            name: doc.data().name,
+            quantity: doc.data().quantity,
+            description: doc.data().description,
+            imageURL: doc.data().imageURL
+          };
+          context.commit("addProduct", product);
+        });
     },
 
     updateProduct(context, paylaod) {
-      context.commit("updateProduct", paylaod);
+      let ref = db.collection('products').doc(paylaod.id);
+      ref.update(paylaod).then(() => {
+        context.commit("updateProduct", paylaod);
+      })
     }
   },
   getters: {
